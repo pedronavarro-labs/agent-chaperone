@@ -20,6 +20,25 @@ bash fetch.sh                        # downloads the datasets, not redistributed
 
 `build_sets.py` is seeded, so it rebuilds the same sets and the same request hashes that the cache is keyed by.
 
+## Source revisions
+
+`fetch.sh` pins the GitHub sources to full commit SHAs and the Wikipedia article to
+revision `1370277088`. The comments beside the URLs record those revisions; both
+BIPIA downloads and its README use the same commit. Promptfoo keeps the revision
+introduced in #70.
+
+Two downloads still use live endpoints: the Hugging Face datasets-server rows API
+and the TypeSafe cookbook page. No immutable public source for that cookbook has
+been identified here. These exceptions mean the entire corpus is **not** pinned;
+in particular, pinning the other sources does not prevent the TypeSafe drift
+reported in #15. The scorer's cache-coverage check must still pass before quoting
+reproduced results.
+
+To update a pin, choose and record an immutable upstream revision, run `fetch.sh`
+and `src/build_sets.py`, then run `src/score.py` against the committed cache. If any
+request is missing, report it and arrange a reviewed live-model run before updating
+recorded results. Do not remove rows or change labels just to make the cache match.
+
 ## Re-run against the live model
 
 ```bash
